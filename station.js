@@ -18,7 +18,7 @@ return (
 <Text>{this.props.name}</Text> 
 { this.state.pressed ? (
 <Text>Wake me Up!</Text>
-) : (<Text>Click to select!</Text>)} 
+) : (<Text>Click to Wake me up here!</Text>)} 
 </View>
 </TouchableHighlight>
 );
