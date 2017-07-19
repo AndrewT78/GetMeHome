@@ -57,13 +57,13 @@ export default class GetMeHome extends Component {
         <Text style={styles.welcome}>
           Get Me Home!
         </Text>
+        <Text>Latitude: {this.state.latitude}</Text>
+         <Text>Longitude: {this.state.longitude}</Text>      
+         <Text>GPS Error: {this.state.error}</Text>
+        
         <Text style={styles.instructions}>
           Select your destination...
         </Text>  
-         <Text>Latitude: {this.state.latitude}</Text>
-         <Text>Longitude: {this.state.longitude}</Text>      
-         <Text>GPS Error: {this.state.error}</Text>    
-
              
         <Station name='Glendalough' />      
         <Station name='Stirling' />      
@@ -92,6 +92,7 @@ const styles = StyleSheet.create({
   instructions: {
     textAlign: 'center',    
     marginBottom: 5,
+    marginTop:10
   },
 });
 
