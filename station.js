@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, Text, View, StyleSheet, TouchableHighlight } from 'react-native';
+import { AppRegistry, Text, View, StyleSheet, TouchableHighlight, Vibration } from 'react-native';
 import geolib from 'geolib'
 export default class Station extends Component {
 constructor(props) {
@@ -17,7 +17,7 @@ render() {
   return (
   <TouchableHighlight style={[stationStyles.station, this.state.pressed && stationStyles.selected]} onPress={() => this.setState({ pressed: !this.state.pressed })}>
   <View>
-  <Text style={[stationStyles.stationName, this.state.pressed && stationStyles.stationNameSelected]}>{this.props.name} ({this.props.latitude}, {this.props.longitude})</Text>
+  <Text style={[stationStyles.stationName, this.state.distanceAlert && stationStyles.distanceAlert, this.state.pressed && stationStyles.stationNameSelected]}>{this.props.name} ({this.props.latitude}, {this.props.longitude})</Text>
   {this.state.pressed &&
     <View>         
          <Text>Distance to Station : {this.getDistance()}</Text> 
@@ -53,6 +53,17 @@ getDistance() {
           longitude: position.coords.longitude,
           error: null,
         });
+
+        if (this.state.pressed) {
+          if (this.getDistance() <= 1000) {
+            Vibration.vibrate();
+            this.setState({ distanceAlert: true });
+          }
+          else {
+            this.setState({ distanceAlert: false });
+          }
+        }
+
       },
       (error) => this.setState({ error: error.message }),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter: 10 },
@@ -81,5 +92,8 @@ stationName: {
 stationNameSelected: {
     color: 'green' 
     
+},
+distanceAlert: {
+  backgroundColor: "red"
 }
 });
