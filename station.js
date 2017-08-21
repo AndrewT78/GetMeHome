@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { AppRegistry, Text, View, StyleSheet, TouchableHighlight } from 'react-native';
+import geolib from 'geolib'
 export default class Station extends Component {
 constructor(props) {
   super(props);
@@ -16,17 +17,29 @@ render() {
   return (
   <TouchableHighlight style={[stationStyles.station, this.state.pressed && stationStyles.selected]} onPress={() => this.setState({ pressed: !this.state.pressed })}>
   <View>
-  <Text style={[stationStyles.stationName, this.state.pressed && stationStyles.stationNameSelected]}>{this.props.name}</Text>
+  <Text style={[stationStyles.stationName, this.state.pressed && stationStyles.stationNameSelected]}>{this.props.name} ({this.props.latitude}, {this.props.longitude})</Text>
   {this.state.pressed &&
-    <View>
-    <Text>Latitude: {this.state.latitude}</Text>
-         <Text>Longitude: {this.state.longitude}</Text>      
-         <Text>GPS Error: {this.state.error}</Text>   
-         </View>
+    <View>         
+         <Text>Distance to Station : {this.getDistance()}</Text> 
+    </View>
   }
   </View> 
   </TouchableHighlight>
   );
+}
+
+getDistance() {  
+  if (this.state.latitude != null) {
+    return geolib.getDistance(
+      {latitude: this.state.latitude, longitude: this.state.longitude},
+      {latitude: this.props.latitude, longitude: this.props.longitude}
+    );
+  }
+  else {
+    return this.state.error;
+        
+  }
+
 }
 
  componentDidMount() {
@@ -53,7 +66,7 @@ render() {
 }
 const stationStyles = StyleSheet.create({
 station: {
-flex: 1, 
+height:100,  
 width:'90%', 
 margin:10,
 padding:5,

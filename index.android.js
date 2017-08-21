@@ -10,7 +10,8 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableHighlight
+  TouchableHighlight,
+  ScrollView
 } from 'react-native';
 
 import Station from './station.js'; 
@@ -32,23 +33,29 @@ export default class GetMeHome extends Component {
                 
         <Text style={styles.instructions}>
           Select your destination...
-        </Text>               
-        <Station name='Glendalough' />      
-        <Station name='Stirling' />      
-        <Station name='Warwick' />      
-        <Station name='Greenwood' />      
-        <Station name='Whitfords' />      
-        <Station name='Edgewater' />      
-        <Station name='Joondalup' />              
+        </Text>         
+
+        <ScrollView>      
+          <Station name='Perth' latitude='-31.952349' longitude='115.857735' />      
+          <Station name='Leederville' latitude='-31.938957' longitude='115.840258' />      
+          <Station name='Glendalough' latitude='-31.914717' longitude='115.823050' />                
+          <Station name='Stirling'  latitude='-31.894155' longitude='115.804382' />                
+          <Station name='Warwick' latitude='-31.844807' longitude='115.796285' />      
+          <Station name='Greenwood' latitude='-31.818667' longitude='115.783136' />                
+          <Station name='Whitfords' latitude='-31.799351' longitude='115.782268' />                
+          <Station name='Edgewater' latitude='-31.771995' longitude='115.778667' />      
+          <Station name='Joondalup' latitude='-31.745104' longitude='115.767388' />              
+          <Station name='Currambine' latitude='-31.724910' longitude='115.750527' />              
+          <Station name='Clarkson' latitude='-31.690780' longitude='115.737399' />              
+          <Station name='Butler' latitude='-31.635421' longitude='115.700047' />              
+        </ScrollView>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center', 
+  container: {   
     alignItems: 'center',
     backgroundColor: '#cccccc',
   },
