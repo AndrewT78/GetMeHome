@@ -8,23 +8,17 @@ constructor(props) {
     this.state = {
       latitude: null,
       longitude: null,
-      error: null,
-      pressed: false
+      error: 'Waiting on GPS'      
     };
 
 }
 render() {
-  return (
-  <TouchableHighlight style={[stationStyles.station, this.state.pressed && stationStyles.selected]} onPress={() => this.setState({ pressed: !this.state.pressed })}>
-  <View>
-  <Text style={[stationStyles.stationName, this.state.distanceAlert && stationStyles.distanceAlert, this.state.pressed && stationStyles.stationNameSelected]}>{this.props.name} ({this.props.latitude}, {this.props.longitude})</Text>
-  {this.state.pressed &&
-    <View>         
-         <Text>Distance to Station : {this.getDistance()}</Text> 
-    </View>
-  }
-  </View> 
-  </TouchableHighlight>
+  return ( 
+
+    <View>
+      <Text>Will wake you at {this.props.name}</Text>
+      <Text style={[this.state.distanceAlert && stationStyles.distanceAlert]}>Distance to Station {this.getDistance()}</Text>
+    </View>  
   );
 }
 
@@ -32,7 +26,7 @@ getDistance() {
   if (this.state.latitude != null) {
     return geolib.getDistance(
       {latitude: this.state.latitude, longitude: this.state.longitude},
-      {latitude: this.props.latitude, longitude: this.props.longitude}
+      {latitude: this.props.lat, longitude: this.props.long}
     );
   }
   else {
@@ -54,7 +48,7 @@ getDistance() {
           error: null,
         });
 
-        if (this.state.pressed) {
+       
           if (this.getDistance() <= 1000) {
             Vibration.vibrate();
             this.setState({ distanceAlert: true });
@@ -62,7 +56,7 @@ getDistance() {
           else {
             this.setState({ distanceAlert: false });
           }
-        }
+       
 
       },
       (error) => this.setState({ error: error.message }),
@@ -76,24 +70,7 @@ getDistance() {
 
 }
 const stationStyles = StyleSheet.create({
-station: {
-height:100,  
-width:'90%', 
-margin:10,
-padding:5,
-backgroundColor: '#dddddd',
-},
-selected: {
-   backgroundColor: "#ffffff"   
-},
-stationName: {
-  fontSize:16
-},
-stationNameSelected: {
-    color: 'green' 
-    
-},
 distanceAlert: {
-  backgroundColor: "red"
+  color: "red"
 }
 });
