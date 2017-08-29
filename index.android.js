@@ -32,9 +32,9 @@ export default class GetMeHome extends Component {
   render() {
     return (       
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Get Me Home!
+        <Text style={styles.welcome}>          
         </Text>             
+        <Text>Get Me Home (0.2 alpha)</Text>
           
 
         <Picker
@@ -54,8 +54,7 @@ export default class GetMeHome extends Component {
 
 const styles = StyleSheet.create({
   container: {   
-    alignItems: 'center',
-    backgroundColor: '#cccccc',
+    alignItems: 'center'
   },
   welcome: {
     fontSize: 30,

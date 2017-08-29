@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { AppRegistry, Text, View, StyleSheet, TouchableHighlight, Vibration } from 'react-native';
-import geolib from 'geolib'
+import geolib from 'geolib';
+import TimerMixin from 'react-timer-mixin';
+
 export default class Station extends Component {
 constructor(props) {
   super(props);
@@ -8,16 +10,16 @@ constructor(props) {
     this.state = {
       latitude: null,
       longitude: null,
-      error: 'Waiting on GPS'      
+      lastUpdate: null
     };
 
 }
 render() {
-  return ( 
+  return (        
 
-    <View>
-      <Text>Will wake you at {this.props.name}</Text>
-      <Text style={[this.state.distanceAlert && stationStyles.distanceAlert]}>Distance to Station {this.getDistance()}</Text>
+    <View style={stationStyles.stationInfo}>      
+      <Text style={[this.state.distanceAlert && stationStyles.distanceAlert]}>Distance to Station :</Text>
+      <Text> {this.getDistance()}</Text>
     </View>  
   );
 }
@@ -37,11 +39,12 @@ getDistance() {
 }
 
  componentDidMount() {
+    console.log('componentDidMount');
+    this.setState({ error: "Waiting" });
 
-    this.setState({ error: "Waiting..." });
-
-   this.watchId = navigator.geolocation.watchPosition(
-      (position) => {
+    this.watchId = navigator.geolocation.watchPosition(
+      (position) => {      
+        console.log('watchPosition()');
         this.setState({
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
@@ -65,12 +68,19 @@ getDistance() {
   }
 
   componentWillUnmount() {
-    navigator.geolocation.clearWatch(this.watchId);
+    console.log('componentWillUnmount');
+    //navigator.geolocation.clearWatch(this.watchId);
   }
 
 }
 const stationStyles = StyleSheet.create({
 distanceAlert: {
-  color: "red"
+  color: "yellow"
+},
+stationInfo: {  
+  flex: 1,  
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
 }
 });
